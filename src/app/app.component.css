@@ -1,0 +1,11 @@
+.main-form{
+  width: 1000px;
+  margin: 0 auto;
+  background-color: #eee;
+  padding: 50px 200px;
+  border-radius: 10px;
+}
+
+.main-form .main-form-title{
+  font-size: 20px;
+}

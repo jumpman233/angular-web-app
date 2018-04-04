@@ -1,20 +1,46 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<form class="main-form">
+  <div class="form-group row">
+    <div class="col-lg-8 offset-lg-4 p-0">
+      <h3 class="main-form-title">Travel and Entertainment Search</h3>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="keyword" class="col-lg-4">Keyword</label>
+    <div class="col-lg-8 p-0">
+      <input class="form-control" type="text" name="keyword" id="keyword" required (blur)="onBlur()" pattern="(\S+)"/>
+      <div class="invalid-feedback">Please enter a keyword</div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="category" class="col-lg-4">Category</label>
+    <select name="category" id="category" class="form-control col-lg-4">
+      <option value="haha">Default</option>
+    </select>
+  </div>
+  <div class="form-group row">
+    <label for="distance" class="col-lg-4">Distance（miles）</label>
+    <input type="text" name="distance" id="distance" placeholder="10" class="form-control col-lg-4"/>
+  </div>
+  <div class="form-group row">
+    <label class="col-lg-4">From</label>
+    <div class="col-lg-8">
+      <div class="form-check">
+        <input type="radio" id="radio-cur-location" name="radio-location" class="form-check-input" checked>
+        <label for="radio-cur-location" class="form-check-label">Current location</label>
+      </div>
+      <div class="form-check">
+        <input type="radio" id="radio-oth-location" name="radio-location" class="form-check-input"/>
+        <label for="radio-oth-location" class="form-check-label">Other. Please specify:</label>
+      </div>
+      <div>
+        <input type="text" disabled id="oth-location-input" name="radio-location" placeholder="Enter a location." class="form-control ml-lg-4"/>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <button class="btn btn-primary mr-lg-2" type="submit">Search</button>
+    <button class="btn btn-normal">Clear</button>
+  </div>
+  <geo-list-item></geo-list-item>
+</form>
+<div></div>
