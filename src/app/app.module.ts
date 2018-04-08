@@ -2,15 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {  } from './geo-list.component';
-import { GeoListItemComponent } from './geo-list-item.component';
+import { GeoListComponent } from './geo-list.component';
+import { GeoDetailComponent } from './geo-detail.component';
+
 
 let directives: any[] = [
   AppComponent,
-  GeoListItemComponent
+  GeoListComponent,
+  GeoDetailComponent
 ];
-
-
 
 @NgModule({
   declarations: directives,
