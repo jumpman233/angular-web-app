@@ -42,4 +42,5 @@
     <button class="btn btn-normal">Clear</button>
   </div>
 </form>
-<geo-list [list]="list.results"></geo-list>
+<geo-detail [location]="curPlace.location" [placeId]="curPlace.placeId"></geo-detail>
+<geo-list (onClickDetail)="onClickDetail($event)" [list]="list"></geo-list>

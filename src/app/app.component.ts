@@ -1,6 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { jquery } from 'jquery';
 import list from './list';
+
+let NewList = list.results.map((data, index)=>{
+  return {
+    icon: data.icon,
+    name: data.name,
+    vicinity: data.vicinity,
+    location: data.geometry.location,
+    place_id: data.place_id,
+    photos: data.photos
+  }
+});
 
 @Component({
   selector: 'app-root',
@@ -10,9 +21,22 @@ import list from './list';
   ]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'app';
-  list = list;
+  list = NewList;
+  curPlace = {
+    location: {},
+    placeId: ''
+  };
+
+  ngOnInit(){
+
+  }
+
+  onClickDetail(data){
+    this.curPlace.location = data.location;
+    this.curPlace.placeId = data.placeId;
+  }
   //
   // onBlur(value: string){
   //   let ele = event.target;

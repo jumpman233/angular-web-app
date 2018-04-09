@@ -1,0 +1,74 @@
+.stars-wrapper {
+  display: inline-block;
+}
+
+.stars-wrapper .stars{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.stars-wrapper .stars .star {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  background: url(../img/star.png) no-repeat;
+  background-size: 15px 15px;
+}
+
+.star-item {
+  display: flex;
+  position: relative;
+  width: 15px;
+  height: 15px;
+}
+
+.stars-wrapper .stars .star-mask {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  background-color: white;
+  top: 0;
+  right: 0;
+}
+
+.stars-wrapper .stars .star-mask.starm-1{
+  width: 10%;
+}
+
+.stars-wrapper .stars .star-mask.starm-2{
+  width: 20%;
+}
+
+.stars-wrapper .stars .star-mask.starm-3{
+  width: 30%;
+}
+
+.stars-wrapper .stars .star-mask.starm-4{
+  width: 40%;
+}
+
+.stars-wrapper .stars .star-mask.starm-5{
+  width: 50%;
+}
+
+.stars-wrapper .stars .star-mask.starm-6{
+  width: 60%;
+}
+
+.stars-wrapper .stars .star-mask.starm-7{
+  width: 70%;
+}
+
+.stars-wrapper .stars .star-mask.starm-8{
+  width: 80%;
+}
+
+.stars-wrapper .stars .star-mask.starm-9{
+  width: 90%;
+}
+
+.stars-wrapper .stars .star-mask.starm-10{
+  width: 100%;
+}

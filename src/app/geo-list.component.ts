@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'geo-list',
@@ -22,7 +22,7 @@ import { Component, Input, OnInit } from '@angular/core';
           <td>{{ item.name }}</td>
           <td>{{ item.vicinity }}</td>
           <td><button class="icon icon-favorite"></button></td>
-          <td><button class="icon icon-to-detail"></button></td>
+          <td><button class="icon icon-to-detail" (click)="toDetail({location: item.location, placeId: item.place_id})"></button></td>
         </tr>
       </tbody>
     </table>
@@ -30,9 +30,15 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: [ './geo-list.component.css' ]
 })
 
-export class GeoListComponent implements OnInit{
+export class GeoListComponent implements OnInit {
   @Input('list') list: any;
+  @Input('location') location: any;
+  @Output() onClickDetail = new EventEmitter<boolean>();
 
   ngOnInit() {
+  }
+
+  toDetail(data) {
+    this.onClickDetail.emit(data);
   }
 }
