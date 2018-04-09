@@ -9,6 +9,9 @@ import { GeoDetailInfoComponent } from './geo-detail-info.component';
 import { StarComponent } from './star.component';
 import { GeoDetailPhotoComponent } from './geo-detail-photo.component';
 import { GeoDetailMapComponent } from './geo-detail-map.component';
+import { GeoDetailReview } from './geo-detail-review';
+import { GeoDetailReviewGoogleComponent } from './geo-detail-review-google.component';
+import { GeoDetailReviewYelpComponent } from './geo-detail-review-yelp.component';
 
 
 let directives: any[] = [
@@ -18,7 +21,10 @@ let directives: any[] = [
   GeoDetailInfoComponent,
   StarComponent,
   GeoDetailPhotoComponent,
-  GeoDetailMapComponent
+  GeoDetailMapComponent,
+  GeoDetailReview,
+  GeoDetailReviewGoogleComponent,
+  GeoDetailReviewYelpComponent
 ];
 
 @NgModule({

@@ -1,5 +1,54 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const yelp = require('yelp-fusion');
+
+const yelp_apiKey = 'yNtcqX6AbLkSjoNl5586HPsQIKagr_AEx6ocP9jaTO_D20vDJxIBrJ9pxsvcqLMYSibyENFQE0b-ejt2TFz6qXCEZg3884JC8IL9hWm3nrYxPHeZ1mH7yQEotFjKWnYx';
+
+const client = yelp.client(yelp_apiKey);
+
+const getBestMatch = ({ name, city, state, country, address1, address2, address3 })=>{
+  return client.businessMatch('best', {
+    name, city, state, country, address1, address2, address3
+  }).then(response => {
+    const firstResult = response.jsonBody.businesses[0];
+    return firstResult.id;
+  }).catch(e => {
+    console.log(e);
+  });
+};
+
+const getReviewsById = (id) => {
+  return client.reviews(id).then(response => {
+    return response.jsonBody.reviews;
+  }).catch(e => {
+    console.log(e);
+  });
+};
+
+const getReviewsByBestMatch = ({ name, city, state, country, address1, address2, address3 }) => {
+  return getBestMatch({ name, city, state, country, address1, address2, address3 })
+    .then(id => getReviewsById(id))
+};
+
+getReviewsByBestMatch({
+  name: "The Little Snail Restaurant",
+  city: "Sydney",
+  state: "NSW",
+  country: "AU",
+  address1: '3/50 Murray St',
+  address2: 'Pyrmont NSW 2009',
+  address3: 'Australia'
+}).then((data) => {
+    console.log(JSON.stringify(data));
+  });
+
+// client.businessMatch('best', searchRequest).then(response => {
+//   const firstResult = response.jsonBody.businesses[0];
+//   const prettyJson = JSON.stringify(firstResult, null, 4);
+//   console.log(prettyJson);
+// }).catch(e => {
+//   console.log(e);
+// });
 
 const key = 'AIzaSyBJ4bQFFJgN0S1DGVpNB5n0dfgW-AFED8w';
 
@@ -41,8 +90,6 @@ function getDetails(place_id = '') {
   }))
     .then(res => res.json());
 }
-
-app.get()
 
 app.get('/address/:address', async function (req, res) {
   res.send(await getContent(req.params.address || ''));

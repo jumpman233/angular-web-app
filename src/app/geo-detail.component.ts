@@ -12,10 +12,10 @@ import { Component, Input, OnInit, OnChanges, ChangeDetectorRef } from '@angular
                 <a class="nav-link" (click)="photoTabClick()" id="nav-photo-tab" href="#photo" data-toggle="tab" aria-controls="photo" aria-selected="false">Photos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav-photo-tab" href="#map" data-toggle="tab" aria-controls="photo" aria-selected="false">Map</a>
+                <a class="nav-link" id="nav-photo-tab" href="#map" data-toggle="tab" aria-controls="reviews" aria-selected="false">Map</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav-photo-tab" href="#reviews" data-toggle="tab" aria-controls="photo" aria-selected="false">Reviews</a>
+                <a class="nav-link" id="nav-photo-tab" href="#reviews" data-toggle="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
             </li>
         </ul>
         <div class="tab-content" id="geo-tab-content">
@@ -29,8 +29,9 @@ import { Component, Input, OnInit, OnChanges, ChangeDetectorRef } from '@angular
              [rate]="rate" 
              class="tab-pane fade show active" 
              id="info"></detail-info>
-           <detail-photos [photos]="photos" class="tab-pane" id="photo"></detail-photos>
-           <detail-map [toAdd]="address" [map]="map" [toPos]="location" class="tab-pane" id="map"></detail-map>
+           <detail-photos [photos]="photos" class="tab-pane fade" id="photo"></detail-photos>
+           <detail-map [toAdd]="address" [map]="map" [toPos]="location" class="tab-pane fade" id="map"></detail-map>
+           <detail-review [data]="reviewData" [googleReviews]="googleReviews" class="tab-pane fade" id="reviews"></detail-review>
         </div>
     </section>
   `,
@@ -47,6 +48,8 @@ export class GeoDetailComponent implements OnInit{
   rate: number;
   photos: object;
   map: any;
+  reviewData: object;
+  googleReviews: object;
   _placeId: string;
 
   @Input('location') location: object;
@@ -90,6 +93,8 @@ export class GeoDetailComponent implements OnInit{
         self.rate = data.rating;
 
         self.photos = data.photos;
+        self.reviewData = self.getReviewRequired(data);
+        self.googleReviews = data.reviews;
         console.log(this.location)
         console.log(data);
 
@@ -116,6 +121,39 @@ export class GeoDetailComponent implements OnInit{
   }
 
   ngOnInit(){
+  }
+
+  getReviewRequired(data) {
+    let result = {
+      name: '',
+      city: '',
+      state: '',
+      country: '',
+      address1: '',
+      address2: '',
+      address3: ''
+    };
+
+    let arr = data.formatted_address.split(',');
+
+    result.address1 = arr[0] || '';
+    result.address2 = arr[1] || '';
+    result.address3 = arr[2] || '';
+
+    result.name = data.name;
+
+    data.address_components.forEach((item) => {
+      item.types.forEach((type) => {
+        if(type === 'administrative_area_level_2'){
+          result.city = item.short_name;
+        } else if(type === 'administrative_area_level_1'){
+          result.state = item.short_name;
+        } else if(type === 'country'){
+          result.country = item.short_name;
+        }
+      });
+    });
+    return result;
   }
 
   getDayInWeek(weekday_text) {

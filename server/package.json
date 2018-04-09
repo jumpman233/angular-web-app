@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "node-fetch": "^2.1.2"
+    "node-fetch": "^2.1.2",
+    "yelp-fusion": "^2.0.3"
+  },
+  "devDependencies": {
+    "@tonybadguy/call-me-maybe": "^2.0.1"
   }
 }
