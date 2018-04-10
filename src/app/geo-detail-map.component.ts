@@ -28,7 +28,10 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
     </div>
     <div (click)="changeViewCLick()" [ngClass]="{ 'mt-2': true, 'mb-2': true, 'icon': true, 'icon-streetview': !showStreetView, 'icon-map': showStreetView}"></div>
     <div id="mmp" style="width: 100%; height: 600px;"></div>
-    <div id="panel"></div>
+    <div *ngIf="hasResult" id="panel"></div>
+    <div *ngIf="!hasResult" class="alert alert-warning" role="alert">
+      No Records
+    </div>
   `,
   styleUrls: [ './geo-list.component.css' ]
 })
@@ -44,6 +47,7 @@ export class GeoDetailMapComponent implements OnInit {
   private originFromAdd;
   showStreetView;
   panorama;
+  hasResult
   @Input('map')
   set map(map){
     this._map = map;
@@ -79,11 +83,12 @@ export class GeoDetailMapComponent implements OnInit {
       destination,
       provideRouteAlternatives: true,
       travelMode: this.mode
-    }, function(response, status) {
+    }, (response, status)=>{
       if (status === 'OK') {
+        this.hasResult = true;
         self.directionsDisplay.setDirections(response);
       } else {
-        alert('Could not display directions due to: ' + status);
+        this.hasResult = false;
       }
     });
   }
@@ -95,6 +100,7 @@ export class GeoDetailMapComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.hasResult = false;
     this.showStreetView = false;
     this.mode = 'DRIVING';
     this.directionsDisplay.setMap(this.map);

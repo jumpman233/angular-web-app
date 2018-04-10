@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import yelpreviews from './reviews';
+import { HttpClient } from '@angular/common/http';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'detail-review',
@@ -22,7 +23,7 @@ import yelpreviews from './reviews';
           {{ curOrder }}
         </button>
         <div class="dropdown-menu" aria-labelledby="orderDropdown">
-          <a href="avascript:void(0);" 
+          <a href="javascript:void(0);" 
             *ngFor="let item of orderList; index as i;"
             class="dropdown-item"
             (click)="curOrder=item"
@@ -117,6 +118,9 @@ export class GeoDetailReview implements OnInit {
     this.address1 = data['address1'];
     this.address2 = data['address2'];
     this.address3 = data['address3'];
+    this.getYelpReviews().subscribe((data)=>{
+      console.log(data);
+    });
   }
 
   get data(){
@@ -153,10 +157,18 @@ export class GeoDetailReview implements OnInit {
     });
   }
 
+  constructor(private http: HttpClient){
+
+  }
+
+  getYelpReviews(){
+    return this.http.get(`/yelp?name=${this.name}&city=${this.city}&state=${this.state}&country=${this.country}&address1=${this.address1}&address2=${this.address2}&address3=${this.address3}`)
+  }
+
   ngOnInit() {
     this._curOrder = this.orderList[0];
     this._curReview = this.reviewSelList[0];
-    this.yelpReviews = yelpreviews;
+    // this.yelpReviews = yelpreviews;
   }
 
 }

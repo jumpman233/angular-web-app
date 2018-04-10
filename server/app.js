@@ -31,18 +31,6 @@ const getReviewsByBestMatch = ({ name, city, state, country, address1, address2,
     .then(id => getReviewsById(id))
 };
 
-getReviewsByBestMatch({
-  name: "The Little Snail Restaurant",
-  city: "Sydney",
-  state: "NSW",
-  country: "AU",
-  address1: '3/50 Murray St',
-  address2: 'Pyrmont NSW 2009',
-  address3: 'Australia'
-}).then((data) => {
-    // console.log(JSON.stringify(data));
-  });
-
 const key = 'AIzaSyBJ4bQFFJgN0S1DGVpNB5n0dfgW-AFED8w';
 
 // const baseUrl = 'https://maps.googleapis.com';
@@ -111,6 +99,18 @@ app.get('/nearby', async function (req, res) {
 
 app.get('/nearby_token/:token', async function (req, res) {
   res.send(await getNearByToken(req.params.token));
+});
+
+app.get('/yelp/', async function (req, res) {
+  res.send(await getBestMatch({
+    name: req.query.name,
+    city: req.query.city,
+    state: req.query.state,
+    country: req.query.country,
+    address1: req.query.address1,
+    address2: req.query.address2,
+    address3: req.query.address3,
+  }))
 });
 
 const server = app.listen(5200, function () {

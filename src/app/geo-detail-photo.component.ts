@@ -3,12 +3,15 @@ import { Component, Input, OnInit, AfterViewChecked } from '@angular/core';
 @Component({
   selector: 'detail-photos',
   template: `
-    <div class="grid">
+    <div *ngIf="photos.length > 0" class="grid">
         <div class="grid-item" *ngFor="let item of photos">
             <a href="{{ item.fullUrl }}" target="_blank">
                 <img src="{{ item.url }}" alt=""/>
             </a>
         </div>
+    </div>
+    <div *ngIf="photos.length == 0" class="alert alert-warning" role="alert">
+      No Records
     </div>
   `,
   styleUrls: [ './geo-detail-photo.component.css' ]
@@ -28,7 +31,6 @@ export class GeoDetailPhotoComponent implements OnInit, AfterViewChecked{
       item.url = item.getUrl( { maxWidth: 300 } );
       item.fullUrl = item.getUrl({ maxWidth: item.width });
     });
-    console.log(this._photos)
   }
 
   get photos():any{
@@ -44,6 +46,7 @@ export class GeoDetailPhotoComponent implements OnInit, AfterViewChecked{
 
   ngOnInit(){
     this.$grid = window['$']('.grid');
+    this._photos = this._photos || [];
 
     // this.$grid.masonry({
     //   itemSelector: '.grid-item',
