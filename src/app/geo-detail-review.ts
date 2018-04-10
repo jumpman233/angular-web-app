@@ -119,7 +119,7 @@ export class GeoDetailReview implements OnInit {
     this.address2 = data['address2'];
     this.address3 = data['address3'];
     this.getYelpReviews().subscribe((data)=>{
-      console.log(data);
+      this.yelpReviews = data;
     });
   }
 
@@ -168,7 +168,6 @@ export class GeoDetailReview implements OnInit {
   ngOnInit() {
     this._curOrder = this.orderList[0];
     this._curReview = this.reviewSelList[0];
-    // this.yelpReviews = yelpreviews;
   }
 
 }
