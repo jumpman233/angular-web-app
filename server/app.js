@@ -102,7 +102,7 @@ app.get('/nearby_token/:token', async function (req, res) {
 });
 
 app.get('/yelp/', async function (req, res) {
-  res.send(await getBestMatch({
+  res.send(await getReviewsByBestMatch({
     name: req.query.name,
     city: req.query.city,
     state: req.query.state,

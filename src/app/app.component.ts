@@ -59,7 +59,6 @@ export class AppComponent implements OnInit{
   }
 
   getNearBy(lat, lng, distance, type, keyword) {
-    console.log(distance);
     return this.http.get(`/nearby?lat=${lat}&lng=${lng}&radius=${distance || 10}&type=${type}&keyword=${keyword}`)
   }
 
