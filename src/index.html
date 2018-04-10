@@ -12,23 +12,44 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ4bQFFJgN0S1DGVpNB5n0dfgW-AFED8w&libraries=places"/>
   <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByTagName('form');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          }, false);
-        });
-      }, false);
-    })();
+    // (function() {
+    //   'use strict';
+    //   window.addEventListener('load', function() {
+    //     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    //     var forms = document.getElementsByTagName('form');
+    //     // Loop over them and prevent submission
+    //     var validation = Array.prototype.filter.call(forms, function(form) {
+    //       form.addEventListener('submit', function(event) {
+    //         if (form.checkValidity() === false) {
+    //           event.preventDefault();
+    //           event.stopPropagation();
+    //         }
+    //         form.classList.add('was-validated');
+    //       }, false);
+    //     });
+    //   }, false);
+    // })();
+
+  </script>
+  <script>
+    window['twttr'] = (function(d, s, id) {
+      console.log("!")
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window['twttr'] || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      console.log(fjs);
+
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs"));
   </script>
 </body>
 </html>

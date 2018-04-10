@@ -16,7 +16,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class StarComponent {
-  private starList: any;
+  starList: any;
   @Input('rate')
   set rate(rate: number){
     this.starList = [];

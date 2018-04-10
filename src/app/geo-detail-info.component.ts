@@ -5,40 +5,36 @@ import { Component, Input, ChangeDetectorRef } from '@angular/core';
   template: `
       <table class="table table-striped">
       <tbody>
-        <tr>
+        <tr *ngIf="address">
           <th scope="row">Address</th>
           <td>{{ address }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="phoneNumber">
           <th scope="row">Phone Number</th>
           <td>{{ phoneNumber }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="priceLevel">
           <th scope="row">Price Level</th>
           <td>{{ priceLevel }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="rate">
           <th scope="row">Rating</th>
           <td>{{ rate }} <stars [rate]="rate"></stars></td>
         </tr>
-        <tr>
+        <tr *ngIf="url">
           <th scope="row">Google Page</th>
           <td><a href="{{ url }}">{{ url }}</a></td>
         </tr>
-        <tr>
+        <tr *ngIf="website">
           <th scope="row">Website</th>
-          <td><a href="{{ website }}">{{ website }}</a></td>
+          <td><a href="{{ website }}" target="_blank">{{ website }}</a></td>
         </tr>
-        <tr>
+        <tr *ngIf="openDesc">
           <th scope="row">Hours</th>
           <td>{{ openDesc }}</td>
         </tr>
       </tbody>
       </table>
-           
-            <!--<div class="tab-pane fade" id="map">-->
-            <!--</div>-->
-    <!--<div class="tab-pane fade" id="reviews"></div>-->
   `,
   styleUrls: [ './geo-list.component.css' ]
 })

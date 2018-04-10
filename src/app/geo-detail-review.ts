@@ -4,8 +4,8 @@ import yelpreviews from './reviews';
 @Component({
   selector: 'detail-review',
   template: `
-    <div class="row mt-2">
-      <div class="dropdown">
+    <div class="row mb-3">
+      <div class="dropdown pl-3">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="reviewsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ curReview }}
         </button>
@@ -17,7 +17,7 @@ import yelpreviews from './reviews';
             >{{ item }}</a>
         </div>
       </div>
-      <div class="dropdown ml-2">
+      <div class="dropdown pl-3">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="orderDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ curOrder }}
         </button>
@@ -45,8 +45,8 @@ export class GeoDetailReview implements OnInit {
   private address1;
   private address2;
   private address3;
-  private orderList = ['Default Order', 'Highest Rating', 'Lowest Rating', 'Most Recent', 'Least Recent'];
-  private reviewSelList = ['Google Reviews', 'Yelp Reviews'];
+  orderList = ['Default Order', 'Highest Rating', 'Lowest Rating', 'Most Recent', 'Least Recent'];
+  reviewSelList = ['Google Reviews', 'Yelp Reviews'];
   private yelpReviews;
   private _curOrder;
   private _curReview;
@@ -124,6 +124,9 @@ export class GeoDetailReview implements OnInit {
   }
 
   sortAscByKey(list, key){
+    if(!list) {
+      return;
+    }
     list.sort((itemA, itemB)=> {
       if(itemA[key] > itemB[key] ){
         return 1;
@@ -136,6 +139,9 @@ export class GeoDetailReview implements OnInit {
   }
 
   sortDescByKey(list, key){
+    if(!list) {
+      return;
+    }
     list.sort((itemA, itemB)=> {
       if(itemA[key] < itemB[key] ){
         return 1;

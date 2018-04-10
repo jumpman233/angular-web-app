@@ -1,15 +1,33 @@
-import { Component, Input, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'geo-detail',
   template: `
-    <section id="detail">
-        <ul class="nav nav-tabs">
+    <section id="detail" [@stateChange]="'flyIn'">
+        <div class="row" style="justify-content: space-between; align-items: center;">
+            <button class="btn btn-normal" (click)="toggleState()">< List</button>
+            <div style="display: flex; justify-content: center; align-items: center;">
+              <button class="icon {{ item.isFav ? 'icon-is-fa' : 'icon-favorite'}} mr-3"
+                  (click)="favoriteClick()"></button>
+              <a href="javascript:void(0);" (click)="twitterClick()"
+              class="icon icon-twitter"
+              >
+              </a>
+            </div>
+        </div>
+        <ul class="row nav nav-tabs mt-3 mb-3">
             <li class="nav-item" role="">
                 <a class="nav-link active" id="nav-info-tab" href="#info" data-toggle="tab" aria-controls="info" aria-selected="true">Info</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="photoTabClick()" id="nav-photo-tab" href="#photo" data-toggle="tab" aria-controls="photo" aria-selected="false">Photos</a>
+                <a class="nav-link" id="nav-photo-tab" href="#photo" data-toggle="tab" aria-controls="photo" aria-selected="false">Photos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="nav-photo-tab" href="#map" data-toggle="tab" aria-controls="reviews" aria-selected="false">Map</a>
@@ -18,7 +36,7 @@ import { Component, Input, OnInit, OnChanges, ChangeDetectorRef } from '@angular
                 <a class="nav-link" id="nav-photo-tab" href="#reviews" data-toggle="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
             </li>
         </ul>
-        <div class="tab-content" id="geo-tab-content">
+        <div class="row tab-content" id="geo-tab-content">
            <detail-info 
              [address]="address" 
              [phoneNumber]="phoneNumber"
@@ -28,37 +46,67 @@ import { Component, Input, OnInit, OnChanges, ChangeDetectorRef } from '@angular
              [openDesc]="openDesc"
              [rate]="rate" 
              class="tab-pane fade show active" 
-             id="info"></detail-info>
-           <detail-photos [photos]="photos" class="tab-pane fade" id="photo"></detail-photos>
-           <detail-map [toAdd]="address" [map]="map" [toPos]="location" class="tab-pane fade" id="map"></detail-map>
-           <detail-review [data]="reviewData" [googleReviews]="googleReviews" class="tab-pane fade" id="reviews"></detail-review>
+             id="info"
+             style="width: 100%"></detail-info>
+           <detail-photos 
+             [photos]="photos" 
+             class="tab-pane fade" 
+             id="photo"
+             style="width: 100%"></detail-photos>
+           <detail-map 
+             [toAdd]="address" 
+             [fromAdd]="curAddress"
+             [map]="map" 
+             [location]="location"
+             [toPos]="location"
+             [ifCurLoc]="ifCurLoc" 
+             class="tab-pane fade"
+             id="map"
+             style="width: 100%"></detail-map>
+           <detail-review 
+             [data]="reviewData" 
+             [googleReviews]="googleReviews" 
+             class="tab-pane fade" 
+             id="reviews"
+             style="width: 100%"></detail-review>
         </div>
     </section>
   `,
-  styleUrls: [ './geo-list.component.css' ]
+  animations: [
+    trigger('stateChange', [
+      state('flyIn', style({ transform: 'translateX(0)' })),
+      transition('void => *', [ style({transform: 'translateX(-100%)'}), animate(500) ])
+    ])
+  ],
+  styleUrls: [ './geo-list.component.css', './common.css' ]
 })
 
-export class GeoDetailComponent implements OnInit{
+export class GeoDetailComponent implements OnInit, OnDestroy{
   address: string;
   phoneNumber: string;
   priceLevel: string;
   url: string;
   website: string;
   openDesc: string;
-  rate: number;
+  rate: any;
   photos: object;
   map: any;
+  shareText: string;
   reviewData: object;
   googleReviews: object;
   _placeId: string;
+  @Output() emitListActive = new EventEmitter<boolean>();
+  @Output() finishProgress = new EventEmitter<boolean>();
 
+  @Input('curAddress') curAddress;
   @Input('location') location: object;
-
-
+  @Input('item') item;
+  @Input('ifCurLoc') ifCurLoc;
 
   @Input('placeId')
   set placeId(placeId: string) {
     let self = this;
+    const NOT_FOUND_TEXT = 'Not Found';
 
     const google = window['google'];
 
@@ -76,6 +124,7 @@ export class GeoDetailComponent implements OnInit{
 
     if(self.map && self._placeId){
       let service = new google.maps.places.PlacesService(self.map);
+      this.createMarker(this.map, this.location['lat'], this.location['lng']);
 
       service.getDetails({
         placeId: self._placeId
@@ -88,19 +137,25 @@ export class GeoDetailComponent implements OnInit{
         }
         self.url = data.url;
         self.website = data.website;
-        self.openDesc = data.opening_hours.open_now ? `Open now: ${this.getDayInWeek(data.opening_hours.weekday_text)}` :
+        self.openDesc = data.opening_hours && data.opening_hours.open_now ?
+          `Open now: ${this.getDayInWeek(data.opening_hours.weekday_text)}` :
           'Close';
+        if(!data.opening_hours){
+          self.openDesc = '';
+        }
         self.rate = data.rating;
 
         self.photos = data.photos;
         self.reviewData = self.getReviewRequired(data);
         self.googleReviews = data.reviews;
-        console.log(this.location)
-        console.log(data);
 
-        self.cdRef.detectChanges();
+        self.shareText = `Check out ${self.item.name} located at ${self.address} Website: ${self.website}`;
 
-        this.createMarker(this.map, this.location);
+        window['twttr'].widgets.load();
+
+        if(!self.cdRef['destroyed']){
+          self.cdRef.detectChanges();
+        }
       });
     }
   }
@@ -112,15 +167,15 @@ export class GeoDetailComponent implements OnInit{
     this.url = '';
     this.website = '';
     this.openDesc = '';
-    this.rate = 0;
+    this.rate = '';
     this.location = {};
   }
 
-  photoTabClick(){
-
+  ngOnInit(){
   }
 
-  ngOnInit(){
+  ngOnDestroy(){
+    this.cdRef.detach();
   }
 
   getReviewRequired(data) {
@@ -161,9 +216,41 @@ export class GeoDetailComponent implements OnInit{
     return weekday_text[day].substring(weekday_text[day].indexOf(':') + 1);
   }
 
-  createMarker(map, position){
+  createMarker(map, lat, lng){
     const google = window['google'];
 
-    return new google.maps.Marker({ map, position });
+    let marker = new google.maps.Marker({ position: new google.maps.LatLng(lat, lng)});
+    marker.setMap(map);
+
+    return marker;
+  }
+
+  favoriteClick(){
+    if(!this.item.isFav){
+      let listStr = localStorage.getItem('favorite_list');
+      let favoriteList = listStr ? JSON.parse(listStr) : [];
+
+      let isIn = false;
+      for(let i = 0; i < favoriteList.length; i++){
+        if(favoriteList[i].place_id === this.item.place_id) {
+          isIn = true;
+          break;
+        }
+      }
+
+      if(!isIn) {
+        favoriteList.push(this.item);
+        localStorage.setItem('favorite_list', JSON.stringify(favoriteList));
+        this.item.isFav = true;
+      }
+    }
+  }
+
+  twitterClick(){
+    window.open(`https://twitter.com/share?text=${this.shareText}`,'','height=400,width=400')
+  }
+
+  toggleState(){
+    this.emitListActive.emit(true);
   }
 }

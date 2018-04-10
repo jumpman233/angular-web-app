@@ -7,27 +7,59 @@
   width: 35px;
   height: 35px;
   border: 2px solid #ececec;
+  display: inline-block;
   border-radius: 5px;
   cursor: pointer;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.icon:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.icon:hover {
+  background-color: #aaa;
 }
 
 .icon.icon-to-detail {
-  background: url(../img/icon-arrow.png) no-repeat center center;
+  background-image: url(../img/icon-arrow.png);
   background-size: 20px 20px;
 }
 
 .icon.icon-favorite {
-  background: url(../img/icon-star.png) no-repeat center center;
+  background-image: url(../img/icon-star.png);
+  background-size: 20px 20px;
+}
+
+.icon.icon-is-fa {
+  background-image: url(../img/icon-star-y.png);
   background-size: 20px 20px;
 }
 
 .icon.icon-map {
-  background: url(../img/icon-map.png) no-repeat center center;
+  background-image: url(../img/icon-map.png);
   background-size: 30px 30px;
 }
 
-
 .icon.icon-streetview {
-  background: url(../img/icon-streetview.jpeg) no-repeat center center;
+  background-image: url(../img/icon-streetview.jpeg);
   background-size: 30px 30px;
+}
+
+.icon.icon-trash {
+  background-image: url(../img/icon-trash.png);
+  background-size: 20px 20px;
+}
+
+.icon.icon-twitter {
+  background-image: url(../img/icon-twitter.png);
+  background-size: 30px 30px;
+  background-color: #219FEF;
+}
+
+.icon.icon-twitter:hover {
+  background-color: #219FEF;
 }

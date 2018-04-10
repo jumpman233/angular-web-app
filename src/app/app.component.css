@@ -1,4 +1,4 @@
-.main-form{
+.main-form {
   width: 900px;
   margin: 0 auto;
   background-color: #eee;
@@ -6,6 +6,15 @@
   border-radius: 10px;
 }
 
-.main-form .main-form-title{
+.main-form .main-form-title {
   font-size: 20px;
+}
+
+.main {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.tab-pane {
+  width: 100%;
 }

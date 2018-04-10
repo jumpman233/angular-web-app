@@ -6,7 +6,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
     <div class="row">
         <div class="col-lg-4">
             <label for="to">From</label>
-            <input type="text" class="form-control" name="from" id="from" [(ngModel)]="fromAdd" />
+            <input type="text" class="form-control" name="from" id="from-add" [(ngModel)]="fromAdd" />
         </div>
         <div class="col-lg-4">
             <label for="to">To</label>
@@ -16,7 +16,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
             <label for="mode">Travel Mode</label>
             <select class="form-control" name="mode" id="mode" [(ngModel)]="mode" >
                 <option value="DRIVING">Driving</option>
-                <option value="BICYCLING">BICYCLING</option>
+                <option value="BICYCLING">Bicycling</option>
                 <option value="TRANSIT">Transit</option>
                 <option value="WALKING">Walk</option>
             </select>
@@ -37,8 +37,11 @@ export class GeoDetailMapComponent implements OnInit {
   @Input('fromAdd') fromAdd: string;
   @Input('toAdd') toAdd: string;
   @Input('toPos') toPos: string;
+  @Input('ifCurLoc') ifCurLoc;
+  @Input('location') location: any;
   @Input('mode') mode: string;
   private _map;
+  private originFromAdd;
   showStreetView;
   panorama;
   @Input('map')
@@ -59,15 +62,17 @@ export class GeoDetailMapComponent implements OnInit {
   get map(){
     return this._map;
   }
-  address: any;
   directionsService = new window['google'].maps.DirectionsService;
   directionsDisplay = new window['google'].maps.DirectionsRenderer;
 
   getDirection(){
     let self = this;
-    let origin = this.fromAdd;
+    let origin = document.getElementById('from-add')['value'];
     let destination = this.toAdd;
-    console.log(this);
+
+    if(origin === 'Your Location'){
+      origin = this.originFromAdd;
+    }
 
     this.directionsService.route({
       origin,
@@ -91,10 +96,22 @@ export class GeoDetailMapComponent implements OnInit {
 
   ngOnInit() {
     this.showStreetView = false;
-    this.address = {"lat":39.9289,"lng":116.3883,"address":"37 Pyrmont St, Pyrmont NSW 2009, Australia"};
-    this.fromAdd = this.address.address;
     this.mode = 'DRIVING';
     this.directionsDisplay.setMap(this.map);
     this.directionsDisplay.setPanel(document.getElementById('panel'));
+    this.originFromAdd = this.fromAdd;
+    if(this.ifCurLoc){
+      this.fromAdd = 'Your Location';
+    }
+
+    let circle = new window['google'].maps.Circle({
+      center: this.location,
+      radius: 30
+    });
+
+    let autocomplete = new window['google'].maps.places.Autocomplete(
+      (document.getElementById('from-add')),
+      {types: ['geocode']});
+    autocomplete.setBounds(circle.getBounds());
   }
 }

@@ -7,40 +7,74 @@
   <div class="form-group row">
     <label for="keyword" class="col-lg-4">Keyword</label>
     <div class="col-lg-8 p-0">
-      <input class="form-control" type="text" name="keyword" id="keyword" required (blur)="onBlur()" pattern="(\S+)"/>
+      <input [(ngModel)]="model.keyword" class="form-control" type="text" name="keyword" id="keyword" required pattern="(\S+)"/>
       <div class="invalid-feedback">Please enter a keyword</div>
     </div>
   </div>
   <div class="form-group row">
     <label for="category" class="col-lg-4">Category</label>
-    <select name="category" id="category" class="form-control col-lg-4">
-      <option value="haha">Default</option>
+    <select [(ngModel)]="model.category" name="category" id="category" class="form-control col-lg-4">
+      <option *ngFor="let item of types" value="{{ item }}">{{ item[0].toUpperCase() + item.substr(1) }}</option>
     </select>
   </div>
   <div class="form-group row">
     <label for="distance" class="col-lg-4">Distance（miles）</label>
-    <input type="text" name="distance" id="distance" placeholder="10" class="form-control col-lg-4"/>
+    <input [(ngModel)]="model.distance" type="text" name="distance" id="distance" placeholder="10" class="form-control col-lg-4"/>
   </div>
   <div class="form-group row">
     <label class="col-lg-4">From</label>
     <div class="col-lg-8">
       <div class="form-check">
-        <input type="radio" id="radio-cur-location" name="radio-location" class="form-check-input" checked>
+        <input type="radio" [(ngModel)]="model.locType" value="1" id="radio-cur-location" name="radio-location" class="form-check-input">
         <label for="radio-cur-location" class="form-check-label">Current location</label>
       </div>
       <div class="form-check">
-        <input type="radio" id="radio-oth-location" name="radio-location" class="form-check-input"/>
+        <input type="radio" [(ngModel)]="model.locType" value="0" id="radio-oth-location" name="radio-location" class="form-check-input"/>
         <label for="radio-oth-location" class="form-check-label">Other. Please specify:</label>
       </div>
       <div>
-        <input type="text" disabled id="oth-location-input" name="radio-location" placeholder="Enter a location." class="form-control ml-lg-4"/>
+        <input [(ngModel)]="model.location"
+               [disabled]="model.locType == 1"
+               [ngModelOptions]="{standalone: true}"
+               type="text"
+               id="oth-location-input"
+               placeholder="Enter a location."
+               class="form-control ml-lg-4"/>
       </div>
     </div>
   </div>
   <div class="form-group row">
-    <button class="btn btn-primary mr-lg-2" type="submit">Search</button>
-    <button class="btn btn-normal">Clear</button>
+    <button class="btn btn-primary mr-lg-2" type="submit" (click)="onSubmit()">Search</button>
+    <button class="btn btn-normal" (click)="onClear()">Clear</button>
   </div>
 </form>
-<geo-detail [location]="curPlace.location" [placeId]="curPlace.placeId"></geo-detail>
-<geo-list (onClickDetail)="onClickDetail($event)" [list]="list"></geo-list>
+<ul class="nav nav-pills mb-3 mt-3 center-block" id="pills-tab" role="tablist" style="justify-content: center;">
+  <li class="nav-item">
+    <a class="nav-link active" (click)="navClick(0)" id="pills-results-tab" href="javascript:void(0);" data-toggle="pill" role="tab" aria-controls="pills-home" aria-selected="true">Results</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="navClick(1)" id="pills-profile-tab" data-toggle="pill" href="javascript:void(0);" role="tab" aria-controls="pills-profile" aria-selected="false">Favorites</a>
+  </li>
+</ul>
+<div *ngIf="showProgress" style="width: 80%; margin: 0 auto;" class="progress" id="progress">
+  <div style="width: 50%;" class="progress-bar progress-bar-striped progress-bar-animated" id="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="main">
+  <geo-list *ngIf="listActive && showContent"
+            (emitListActive)="checkActive($event)"
+            (onClickDetail)="onClickDetail($event)"
+            [hasDetail]="hasDetail"
+            [type]="listType"
+            [nextPageToken]="nextPageToken"
+            [list]="list"
+            [selItem]="curPlace.placeId"></geo-list>
+  <geo-detail *ngIf="!listActive && showContent"
+              (emitListActive)="checkActive($event)"
+              [location]="curPlace.location"
+              [placeId]="curPlace.placeId"
+              [item]="curPlace.item"
+              [ifCurLoc]="ifCurLoc"
+              [curAddress]="curAddress"></geo-detail>
+</div>
+
+
