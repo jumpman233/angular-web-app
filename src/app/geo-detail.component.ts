@@ -14,7 +14,7 @@ import {
         <div class="row" style="justify-content: space-between; align-items: center;">
             <button class="btn btn-normal" (click)="toggleState()">< List</button>
             <div style="display: flex; justify-content: center; align-items: center;">
-              <button class="icon {{ item.isFav ? 'icon-is-fa' : 'icon-favorite'}} mr-3"
+              <button class="icon btn hover {{ item.isFav ? 'icon-is-fa' : 'icon-favorite'}} mr-3"
                   (click)="favoriteClick()"></button>
               <a href="javascript:void(0);" (click)="twitterClick()"
               class="icon icon-twitter"
@@ -45,6 +45,7 @@ import {
              [website]="website"
              [openDesc]="openDesc"
              [rate]="rate" 
+             [weekdayText]="weekdayText"
              class="tab-pane fade show active" 
              id="info"
              style="width: 100%"></detail-info>
@@ -92,6 +93,7 @@ export class GeoDetailComponent implements OnInit, OnDestroy{
   photos: object;
   map: any;
   shareText: string;
+  weekdayText;
   reviewData: object;
   googleReviews: object;
   _placeId: string;
@@ -140,6 +142,7 @@ export class GeoDetailComponent implements OnInit, OnDestroy{
         self.openDesc = data.opening_hours && data.opening_hours.open_now ?
           `Open now: ${this.getDayInWeek(data.opening_hours.weekday_text)}` :
           'Close';
+        self.weekdayText = data.opening_hours && data.opening_hours.weekday_text;
         if(!data.opening_hours){
           self.openDesc = '';
         }

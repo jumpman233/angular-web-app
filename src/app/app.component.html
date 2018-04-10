@@ -1,13 +1,16 @@
-<form class="main-form">
+<form class="main-form" id="form">
   <div class="form-group row">
     <div class="col-lg-8 offset-lg-4 p-0">
       <h3 class="main-form-title">Travel and Entertainment Search</h3>
     </div>
   </div>
-  <div class="form-group row">
-    <label for="keyword" class="col-lg-4">Keyword</label>
+  <div class="form-group row {{ keywordTouched ? 'was-validated' : '' }}">
+    <label for="keyword" class="col-lg-4">Keyword<span style="color: red">*</span></label>
     <div class="col-lg-8 p-0">
-      <input [(ngModel)]="model.keyword" class="form-control" type="text" name="keyword" id="keyword" required pattern="(\S+)"/>
+      <input [(ngModel)]="model.keyword"
+             (keyup)="keywordInputChange()"
+             (blur)="keywordInputChange()"
+             class="form-control" type="text" required name="keyword" id="keyword" pattern="^.*\S.*$"/>
       <div class="invalid-feedback">Please enter a keyword</div>
     </div>
   </div>
@@ -22,7 +25,7 @@
     <input [(ngModel)]="model.distance" type="text" name="distance" id="distance" placeholder="10" class="form-control col-lg-4"/>
   </div>
   <div class="form-group row">
-    <label class="col-lg-4">From</label>
+    <label class="col-lg-4">From<span style="color: red">*</span></label>
     <div class="col-lg-8">
       <div class="form-check">
         <input type="radio" [(ngModel)]="model.locType" value="1" id="radio-cur-location" name="radio-location" class="form-check-input">
@@ -32,19 +35,27 @@
         <input type="radio" [(ngModel)]="model.locType" value="0" id="radio-oth-location" name="radio-location" class="form-check-input"/>
         <label for="radio-oth-location" class="form-check-label">Other. Please specify:</label>
       </div>
-      <div>
+      <div class="{{ locationTouched ? 'was-validated' : '' }} ml-3">
         <input [(ngModel)]="model.location"
                [disabled]="model.locType == 1"
                [ngModelOptions]="{standalone: true}"
+               (keydown)="locationInputChange()"
+               (blur)="locationInputChange()"
                type="text"
+               required
                id="oth-location-input"
                placeholder="Enter a location."
-               class="form-control ml-lg-4"/>
+               class="form-control"
+               pattern="^.*\S.*$"/>
+        <div class="invalid-feedback">Please enter location</div>
       </div>
     </div>
   </div>
   <div class="form-group row">
-    <button class="btn btn-primary mr-lg-2" type="submit" (click)="onSubmit()">Search</button>
+    <button class="btn btn-primary mr-2"
+            type="submit"
+            (click)="onSubmit()"
+            [disabled]="ifDisable"><i class="icon-glass"></i>Search</button>
     <button class="btn btn-normal" (click)="onClear()">Clear</button>
   </div>
 </form>

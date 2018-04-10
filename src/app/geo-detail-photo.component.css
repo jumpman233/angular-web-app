@@ -1,18 +1,25 @@
-.grid{
-  -moz-column-count:4; /* Firefox */
-  -webkit-column-count:4; /* Safari 和 Chrome */
-  column-count:4; /* 用整数值来定义列数。不允许负值 */
-  -moz-column-gap: 1em;
-  -webkit-column-gap: 1em;
-  column-gap: 1em; /*用长度值来定义列与列之间的间隙。不允许负值*/
-}
-/*一个内容层*/
-.grid-item{
-  -moz-page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  break-inside: avoid;
+
+.grid-item {
   margin-bottom: 10px;
 }
+
 .grid-item img{
   width: 100%;
+}
+
+@media screen and (min-width: 800px) {
+  .grid{
+    -moz-column-count:4; /* Firefox */
+    -webkit-column-count:4; /* Safari 和 Chrome */
+    column-count:4; /* 用整数值来定义列数。不允许负值 */
+    -moz-column-gap: 1em;
+    -webkit-column-gap: 1em;
+    column-gap: 1em; /*用长度值来定义列与列之间的间隙。不允许负值*/
+  }
+  /*一个内容层*/
+  .grid-item{
+    -moz-page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+  }
 }

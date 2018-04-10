@@ -5,18 +5,16 @@ import { Component, Input, OnInit } from '@angular/core';
   template: `
     <div *ngIf="reviews.length > 0">
       <div *ngFor="let item of reviews; index as i;" class="card mb-2" style="width: 100%;">
-        <div class="row">
-          <div class="col-lg-1">
-              <a href="{{ item.author_url }}" target="_blank">
-                  <img src="{{ item.profile_photo_url }}" width="50" height="50" alt="">
-              </a>
+        <div class="card-body row">
+          <div class="col-lg-1 col-3">
+            <a href="{{ item.author_url }}" target="_blank">
+                <img src="{{ item.profile_photo_url }}" width="50" height="50" alt="">
+            </a>
           </div>
-          <div class="col-lg-11">
-            <div class="card-body">
-              <h5 class="card-title"><a target="_blank" href="{{ item.author_url }}">{{ item.author_name }}</a></h5>
-              <p><stars [rate]="item.rating"></stars> {{ item.time * 1000 | date: 'yyyy-MM-dd HH:mm' }}</p>
-              <p class="card-text">{{ item.text }}</p>
-            </div>
+          <div class="col-lg-11 col-9">
+            <h5 class="card-title"><a target="_blank" href="{{ item.author_url }}">{{ item.author_name }}</a></h5>
+            <p><stars [rate]="item.rating"></stars> {{ item.time * 1000 | date: 'yyyy-MM-dd HH:mm' }}</p>
+            <p class="card-text">{{ item.text }}</p>
           </div>
         </div>
       </div>

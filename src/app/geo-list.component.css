@@ -20,8 +20,8 @@
   outline: none;
 }
 
-.icon:hover {
-  background-color: #aaa;
+.icon.hover:hover{
+  background-color: #999;
 }
 
 .icon.icon-to-detail {
@@ -45,7 +45,7 @@
 }
 
 .icon.icon-streetview {
-  background-image: url(../img/icon-streetview.jpeg);
+  background-image: url(../img/icon-streetview.png);
   background-size: 30px 30px;
 }
 

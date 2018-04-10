@@ -15,30 +15,33 @@ import {
       <div class="row mb-3 mr-1" style="justify-content: flex-end;">
         <button class="btn btn-normal" [disabled]="!hasDetail"  (click)="toggleState()">Details ></button>
       </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col" style="width: 10%">#</th>
-            <th scope="col" style="width: 10%">Category</th>
-            <th scope="col" style="width: 20%">Name</th>
-            <th scope="col" style="width: 20%">Address</th>
-            <th scope="col" style="width: 10%">Favorite</th>
-            <th scope="col" style="width: 10%">Details</th> 
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="table-row {{ item.place_id == selItem ? 'table-warning' : '' }}" *ngFor="let item of _list; index as i;">
-            <th scope="row">{{ i + 1 }}</th>
-            <td><img width="30" height="30" src="{{ item.icon }}" alt=""></td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.vicinity }}</td>
-            <td><button 
-                class="icon {{ item.isFav ? 'icon-is-fa' : 'icon-favorite'}} {{ type == 1 ? 'icon-trash' : '' }}"
-                (click)="favoriteClick(item)"></button></td>
-            <td><button class="icon icon-to-detail" (click)="toDetail(item)"></button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="overflow: scroll">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="">#</th>
+              <th scope="col" style="">Category</th>
+              <th scope="col" style="min-width: 200px;">Name</th>
+              <th scope="col" style="min-width: 350px;">Address</th>
+              <th scope="col" style="">Favorite</th>
+              <th scope="col" style="">Details</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-row {{ item.place_id == selItem ? 'table-warning' : '' }}" *ngFor="let item of _list; index as i;">
+              <th scope="row">{{ i + 1 }}</th>
+              <td><img width="30" height="30" src="{{ item.icon }}" alt=""></td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.vicinity }}</td>
+              <td><button 
+                  class="icon btn hover {{ item.isFav ? 'icon-is-fa' : 'icon-favorite'}} {{ type == 1 ? 'icon-trash' : '' }}"
+                  (click)="favoriteClick(item)"></button></td>
+              <td><button class="icon btn hover icon-to-detail" (click)="toDetail(item)"></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
       <div class="center-block row" *ngIf="type==0" style="justify-content: center;">
         <button *ngIf="hasPre" class="btn btn-normal mr-5" (click)="updateListByPage()">Previous</button>
         <button *ngIf="nextPageToken" class="btn btn-normal" (click)="updateListByToken(nextPageToken)">Next</button>
@@ -147,7 +150,7 @@ export class GeoListComponent implements OnInit {
   }
 
   favoriteClick(item){
-    if (this._type == 1){
+    if (this._type == 1 || item.isFav){
       for(let i = 0; i < this.favoriteList.length; i++){
         if(this.favoriteList[i].place_id === item.place_id) {
           this.favoriteList.splice(i, 1);

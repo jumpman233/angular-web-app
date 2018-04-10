@@ -18,3 +18,24 @@
 .tab-pane {
   width: 100%;
 }
+
+@media screen and (max-width: 650px){
+  .main-form {
+    margin-top: 20px;
+    width: 90%;
+    padding: 10px 10px;
+  }
+
+  .main-form .row{
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .main-form label {
+    padding: 0;
+  }
+
+  .main-form-title{
+    text-align: center;
+  }
+}

@@ -7,7 +7,8 @@ import 'rxjs/Rx';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: [
-    './app.component.css'
+    './app.component.css',
+    './common.css'
   ]
 })
 
@@ -29,6 +30,9 @@ export class AppComponent implements OnInit{
   showContent: boolean;
   ifCurLoc: boolean;
   listType;
+  ifDisable: boolean;
+  keywordTouched;
+  locationTouched;
   nextPageToken: string;
   curPlace = {
     location: {},
@@ -66,6 +70,7 @@ export class AppComponent implements OnInit{
     this.hasDetail = false;
     this.showProgress = false;
     this.showContent = false;
+    this.ifDisable = true;
     this.listType = 0;
 
     this.getCurLocation()
@@ -94,7 +99,6 @@ export class AppComponent implements OnInit{
     this.curPlace.placeId = data.place_id;
     this.curPlace.item = data;
     this.hasDetail = true;
-    console.log(data);
   }
 
   checkActive(data){
@@ -120,6 +124,8 @@ export class AppComponent implements OnInit{
   }
 
   onSubmit() {
+    let locationValue = document.getElementById('oth-location-input')['value'];
+
     this.showProgress = true;
     this.showContent = false;
     if(this.model.locType === '1'){
@@ -141,7 +147,6 @@ export class AppComponent implements OnInit{
           );
         })
     } else{
-      let locationValue = document.getElementById('oth-location-input')['value'];
       this.getCurGeo(locationValue)
         .subscribe(data => {
           this.curLocation = data['results'][0].geometry.location;
@@ -155,6 +160,28 @@ export class AppComponent implements OnInit{
             this.model.keyword);
         });
     }
+  }
+
+  checkCanSubmit() {
+    let locationValue = document.getElementById('oth-location-input')['value'];
+    let keywordValue = document.getElementById('keyword')['value'];
+    if(this.model.locType === '1') {
+      this.ifDisable = keywordValue.trim() === '';
+    } else{
+      this.ifDisable = locationValue.trim() === '' || keywordValue.trim() === '';
+    }
+  }
+
+  keywordInputChange() {
+    this.keywordTouched = true;
+
+    this.checkCanSubmit();
+  }
+
+  locationInputChange() {
+    this.locationTouched = true;
+
+    this.checkCanSubmit();
   }
 
   onClear() {
