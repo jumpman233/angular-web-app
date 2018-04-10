@@ -37,7 +37,7 @@
       </div>
       <div class="{{ locationTouched ? 'was-validated' : '' }} ml-3">
         <input [(ngModel)]="model.location"
-               [disabled]="model.locType == 1"
+               [disabled]="model.locType === '1'"
                [ngModelOptions]="{standalone: true}"
                (keydown)="locationInputChange()"
                (blur)="locationInputChange()"

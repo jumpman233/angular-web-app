@@ -23,10 +23,10 @@
         "../node_modules/_bootstrap@4.0.0@bootstrap/dist/css/bootstrap.css"
       ],
       "scripts": [
-        "../node_modules/_jquery@3.3.1@jquery/dist/jquery.min.js",
-        "../node_modules/_popper.js@1.14.3@popper.js/dist/umd/popper.min.js",
-        "../node_modules/_bootstrap@4.0.0@bootstrap/dist/js/bootstrap.min.js",
-        "../node_modules/_masonry-layout@4.2.1@masonry-layout/dist/masonry.pkgd.min.js"
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/popper.js/dist/umd/popper.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/masonry-layout/dist/masonry.pkgd.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
