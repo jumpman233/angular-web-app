@@ -11,9 +11,7 @@ import {
   selector: 'geo-detail',
   template: `
     <section id="detail" [@stateChange]="'flyIn'">
-        <div class="row">
-            <h2>{{ item.name }}</h2>
-        </div>
+        <h2 style="text-align: center;" class="mb-2">{{ item.name }}</h2>
         <div class="row" style="justify-content: space-between; align-items: center;">
             <button class="btn btn-normal" (click)="toggleState()">< List</button>
             <div style="display: flex; justify-content: center; align-items: center;">
