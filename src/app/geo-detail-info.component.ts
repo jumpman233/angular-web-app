@@ -24,7 +24,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
           </tr>
           <tr *ngIf="url">
             <th scope="row">Google Page</th>
-            <td><a href="{{ url }}">{{ url }}</a></td>
+            <td><a href="{{ url }}" target="_blank">{{ url }}</a></td>
           </tr>
           <tr *ngIf="website">
             <th scope="row">Website</th>

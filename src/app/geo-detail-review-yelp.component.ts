@@ -12,7 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
             </a>
           </div>
           <div class="col-lg-11 col-9">
-            <h5 class="card-title"><a target="_blank" href="{{ item.author_url }}">{{ item.user.name }}</a></h5>
+            <h5 class="card-title"><a target="_blank" href="{{ item.url }}">{{ item.user.name }}</a></h5>
             <p><stars [rate]="item.rating"></stars> {{ item.time_created }}</p>
             <p class="card-text">{{ item.text }}</p>
           </div>

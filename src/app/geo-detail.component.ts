@@ -11,6 +11,9 @@ import {
   selector: 'geo-detail',
   template: `
     <section id="detail" [@stateChange]="'flyIn'">
+        <div class="row">
+            <h2>{{ item.name }}</h2>
+        </div>
         <div class="row" style="justify-content: space-between; align-items: center;">
             <button class="btn btn-normal" (click)="toggleState()">< List</button>
             <div style="display: flex; justify-content: center; align-items: center;">
@@ -55,7 +58,7 @@ import {
              id="photo"
              style="width: 100%"></detail-photos>
            <detail-map 
-             [toAdd]="address" 
+             [toAdd]="item.name" 
              [fromAdd]="curAddress"
              [map]="map" 
              [location]="location"

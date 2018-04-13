@@ -3,6 +3,10 @@
   margin: 0 auto;
 }
 
+.nav-tabs {
+  justify-content: flex-end;
+}
+
 .icon {
   width: 35px;
   height: 35px;

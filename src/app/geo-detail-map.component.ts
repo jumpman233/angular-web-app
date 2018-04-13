@@ -29,9 +29,6 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
     <div (click)="changeViewCLick()" [ngClass]="{ 'mt-2': true, 'mb-2': true, 'icon': true, 'icon-streetview': !showStreetView, 'icon-map': showStreetView}"></div>
     <div id="mmp" style="width: 100%; height: 600px;"></div>
     <div id="panel"></div>
-    <div class="alert alert-warning" role="alert">
-      No Records
-    </div>
   `,
   styleUrls: [ './geo-list.component.css' ]
 })
