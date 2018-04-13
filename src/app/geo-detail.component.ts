@@ -230,22 +230,30 @@ export class GeoDetailComponent implements OnInit, OnDestroy{
   }
 
   favoriteClick(){
-    if(!this.item.isFav){
-      let listStr = localStorage.getItem('favorite_list');
-      let favoriteList = listStr ? JSON.parse(listStr) : [];
+    let listStr = localStorage.getItem('favorite_list');
+    let favoriteList = listStr ? JSON.parse(listStr) : [];
 
-      let isIn = false;
-      for(let i = 0; i < favoriteList.length; i++){
-        if(favoriteList[i].place_id === this.item.place_id) {
-          isIn = true;
-          break;
-        }
+    let isIn = false,
+        index = 0;
+    for(let i = 0; i < favoriteList.length; i++){
+      if(favoriteList[i].place_id === this.item.place_id) {
+        isIn = true;
+        index = i;
+        break;
       }
+    }
 
+    if(!this.item.isFav){
       if(!isIn) {
         favoriteList.push(this.item);
         localStorage.setItem('favorite_list', JSON.stringify(favoriteList));
         this.item.isFav = true;
+      }
+    } else {
+      if(isIn) {
+        favoriteList.splice(index, 1);
+        localStorage.setItem('favorite_list', JSON.stringify(favoriteList));
+        this.item.isFav = false;
       }
     }
   }

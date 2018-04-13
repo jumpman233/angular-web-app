@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
           {{ curReview }}
         </button>
         <div class="dropdown-menu" aria-labelledby="reviewsDropdown">
-          <a href="avascript:void(0);" 
+          <a href="javascript:void(0);" 
             *ngFor="let item of reviewSelList; index as i;"
             class="dropdown-item"
             (click)="curReview=item"
